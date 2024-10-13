@@ -1,10 +1,10 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import path from 'path';
+import getPath from '../lib/getPath.js';
 import fs from 'fs/promises';
 
-import { Client } from 'pg';
-import { client_encoding, connectionString } from 'pg/lib/defaults';
+import pg from 'pg';
+const { Client } = pg;
 
 function getClient(database) {
   return new Client({
@@ -21,7 +21,7 @@ function getClient(database) {
 async function buildFunctions(sqlScript = 'scripts/functions.sql') {
   try {
     console.log(`INFO: reading '${sqlScript}' file(s)...`);
-    const SQL = await fs.readFile(path.join(__dirname, sqlScript), 'utf8');
+    const SQL = await fs.readFile(getPath(import.meta.url, sqlScript), 'utf8');
 
     console.log('INFO: building functions and procedures...');
     const newClient = getClient(process.env.DB_NAME);
@@ -29,7 +29,7 @@ async function buildFunctions(sqlScript = 'scripts/functions.sql') {
     await newClient.query(SQL);
     await newClient.end();
 
-    console.log("INFO: done building functions!");
+    console.log('INFO: done building functions!');
   } catch (err) {
     console.log('ERROR: ', err);
   }

@@ -1,14 +1,13 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import fs from 'fs';
-import getPath from './lib/getPath.js';
+import getPath from '../lib/getPath.js';
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-import db from './models/queries';
-
+import db from '../models/queries.js';
 
 const PUB_KEY = fs.readFileSync(
-  getPath(import.meta.url, './config/public_key.pem'),
+  getPath(import.meta.url, '../config/public_key.pem'),
   'utf8',
 );
 
@@ -23,7 +22,8 @@ passport.use(
     try {
       const user_id = jwt_payload.sub;
       const user = await db.getUserById(user_id);
-      if (!user) return done(null, false);
+      if (!user) 
+        return done(null, false);
       return done(null, user);
     } catch (err) {
       return done(err, false);
@@ -31,4 +31,6 @@ passport.use(
   }),
 );
 
-export default passport;
+export default {
+  isAuth: passport.authenticate('jwt', { session: false }),
+}
