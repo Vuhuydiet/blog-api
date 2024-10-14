@@ -3,9 +3,9 @@ import { getHashPassword } from '../lib/utils.js';
 
 const post = async (req, res) => {
   try {
-    const { username, password} = req.body;
-    const hashedPassword = await getHashPassword(password);
-    const user_id = await db.createUser(username, hashedPassword, 'guest', null);
+    const { username, password, fullname } = req.body;
+    const hashedPassword = getHashPassword(password);
+    const user_id = await db.createUser(username, hashedPassword, 'guest', fullname);
     if (user_id == -1)
       return res.status(400).json({ err: 'User already exists' });
     return res.json({ user_id: user_id });

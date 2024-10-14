@@ -4,6 +4,7 @@ import fs from 'fs';
 import { getPathFromBackend } from './getPath.js';
 
 import db from '../models/queries.js';
+import exp from 'constants';
 
 const PRIV_KEY = fs.readFileSync(
   getPathFromBackend('config/private_key.pem'),
@@ -36,18 +37,18 @@ function invalidatePassword(inputPassword, storedHash) {
   return hash === originalHash;
 }
 function issueJWT(user_id) {
-  const expiresIn = '1d';
+  const expiresInSeconds = 24 * 60 * 60; // 1 day in seconds
+
   const payload = {
     sub: user_id,
-    iat: Date.now(),
+    iat: Math.floor(Date.now() / 1000),
+    exp: Math.floor(Date.now() / 1000) + expiresInSeconds,
   };
   const signedToken = jwt.sign(payload, PRIV_KEY, {
-    expiresIn,
     algorithm: 'RS256',
   });
   return {
-    token: 'Bearer ' + signedToken,
-    expires: expiresIn,
+    token: signedToken,
   };
 }
 

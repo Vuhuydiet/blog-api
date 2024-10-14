@@ -12,7 +12,7 @@ const post = async (req, res) => {
       return res.status(400).json({ err: 'Wrong password or user does not exist' });
     }
     const token = issueJWT(user.user_id);
-    return res.json({ token });
+    return res.json(token);
   }
   catch(err) {
     console.error(err);
