@@ -4,8 +4,7 @@ const router = express.Router();
 import controller from '../controllers/postsController.js';
 
 import passport from '../services/auth.js';
-import permissions from '../services/permissions.js';
-const { canPostPost, canPublishPost, canDeletePost, canPostComment, canDeleteComment } = permissions;
+import { canPostPost, canPublishPost, canDeletePost, canPostComment, canDeleteComment } from '../services/permissions.js';
 
 
 router.get(
