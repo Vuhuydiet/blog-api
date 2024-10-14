@@ -134,3 +134,5 @@ out
 .pnp.*
 
 .early.coverage
+*early.test
+early.config.json
