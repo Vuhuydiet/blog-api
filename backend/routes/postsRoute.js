@@ -3,7 +3,7 @@ const router = express.Router();
 
 import controller from '../controllers/postsController.js';
 
-import passport from '../services/auth.js';
+import isAuth from '../services/auth.js';
 import { canPostPost, canPublishPost, canDeletePost, canPostComment, canDeleteComment } from '../services/permissions.js';
 
 
@@ -17,17 +17,17 @@ router.get(
 );
 router.post(
   '/', 
-  passport.isAuth, canPostPost,
+  isAuth, canPostPost,
   controller.postPost
 );
 router.put(
   '/:postId', 
-  passport.isAuth, canPublishPost, 
+  isAuth, canPublishPost, 
   controller.publishPost
 );
 router.delete(
   '/:postId', 
-  passport.isAuth, canDeletePost, 
+  isAuth, canDeletePost, 
   controller.deletePostById
 );
 
@@ -37,12 +37,12 @@ router.get(
 );
 router.post(
   '/:postId/comments', 
-  passport.isAuth, canPostComment, 
+  isAuth, canPostComment, 
   controller.postComment
 );
 router.delete(
   '/:postId/comments/:commentId', 
-  passport.isAuth, canDeleteComment, 
+  isAuth, canDeleteComment, 
   controller.deleteCommentById
 );
 

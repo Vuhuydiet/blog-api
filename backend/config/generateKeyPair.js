@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import fs from 'fs';
-import getPath from '../lib/getPath.js';
+import { getPathFromBackend } from '../lib/getPath.js';
 
 // Generate RSA key pair
 crypto.generateKeyPair(
@@ -23,11 +23,11 @@ crypto.generateKeyPair(
     }
 
     // Save the public key to a file
-    fs.writeFileSync(getPath(import.meta.url, 'public_key.pem'), publicKey);
+    fs.writeFileSync(getPathFromBackend('config/public_key.pem'), publicKey);
     console.log('Public key saved to public_key.pem');
 
     // Save the private key to a file
-    fs.writeFileSync(getPath(import.meta.url, 'private_key.pem'), privateKey);
+    fs.writeFileSync(getPathFromBackend('config/private_key.pem'), privateKey);
     console.log('Private key saved to private_key.pem');
   },
 );

@@ -1,17 +1,17 @@
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
-import getPath from './getPath.js';
+import { getPathFromBackend } from './getPath.js';
 
 import db from '../models/queries.js';
 
 const PRIV_KEY = fs.readFileSync(
-  getPath(import.meta.url, '../config/private_key.pem'),
+  getPathFromBackend('config/private_key.pem'),
   'utf8',
 );
 
 const PUB_KEY = fs.readFileSync(
-  getPath(import.meta.url, '../config/public_key.pem'),
+  getPathFromBackend('config/public_key.pem'),
   'utf8',
 );
 

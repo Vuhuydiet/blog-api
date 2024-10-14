@@ -1,8 +1,8 @@
 {
-  "name": "webdev-template",
+  "name": "blog-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "backend/app.js",
   "type": "module",
   "scripts": {
     "build": "cd frontend && npm run build",
@@ -11,13 +11,19 @@
     "client": "cd frontend && npm run dev",
     "server": "nodemon backend/app.js NODE_ENV=development",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "test": "echo no test specified",
+    "test": "jest",
     "db": "node backend/models/buildDatabase.js",
     "db-fn": "node backend/models/buildFunctions.js",
     "genkey": "node backend/config/generateKeyPair.js",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "format": "prettier --write ."
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "testEnvironment": "node"
   },
   "keywords": [],
   "author": "",
@@ -35,10 +41,12 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.25.8",
+    "@babel/preset-env": "^7.25.8",
     "@eslint/js": "^9.11.1",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
+    "babel-jest": "^29.7.0",
     "concurrently": "^9.0.1",
     "cross-env": "^7.0.3",
     "eslint": "^9.12.0",

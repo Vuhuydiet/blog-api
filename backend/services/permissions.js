@@ -1,14 +1,14 @@
 
 import db from '../models/queries.js';
 
-export function canPostPost(req, res, next) {
+function canPostPost(req, res, next) {
   if (req.user.role !== 'admin') {
     return res.status(403).json({ err: 'Forbidden: only admin can post' });
   }
   return next();
 }
 
-export async function canPublishPost(req, res, next) {
+async function canPublishPost(req, res, next) {
   if (req.user.role !== 'admin') {
     return res.status(403).json({ err: 'Forbidden: only admin can publish' });
   }
@@ -31,7 +31,7 @@ export async function canPublishPost(req, res, next) {
   };
 }
 
-export async function canDeletePost(req, res, next) {
+async function canDeletePost(req, res, next) {
   if (req.user.role !== 'admin') {
     return res.status(403).json({ err: 'Forbidden: only admin can delete post' });
   }
@@ -54,7 +54,7 @@ export async function canDeletePost(req, res, next) {
   };
 }
 
-export async function canPostComment(req, res, next) {
+async function canPostComment(req, res, next) {
   try {
     const post = await db.getPostById(req.params.postId);
     if (!post) {
@@ -72,7 +72,7 @@ export async function canPostComment(req, res, next) {
   return next();
 }
 
-export async function canDeleteComment(req, res, next) {
+async function canDeleteComment(req, res, next) {
   const commentId = req.params.commentId;
   const user = req.user;
   try {
@@ -94,4 +94,12 @@ export async function canDeleteComment(req, res, next) {
     console.error(err);
     return res.status(500).json({ err: 'Internal Server Error' });
   };
+}
+
+export {
+  canPostPost,
+  canPublishPost,
+  canDeletePost,
+  canPostComment,
+  canDeleteComment
 }
